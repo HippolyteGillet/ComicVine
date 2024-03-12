@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../api_call.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
         scrollDirection: Axis.vertical,
         child: Column(
           children: [
-            const SizedBox(height: 50), // Espacement en haut
+            const SizedBox(height: 50),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,28 +44,24 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             Transform.translate(
-              offset: const Offset(0, -80),
-              child: Column(
-                children: [
-                  buildSectionBox('Séries populaires'),
-                  const SizedBox(height: 30),
-                  buildSectionBox('Comics populaires'),
-                  const SizedBox(height: 30),
-                  buildSectionBox('Films populaires'),
-                  const SizedBox(height: 30),
-                ],
-              )
-
-
-            ),
-
+                offset: const Offset(0, -80),
+                child: Column(
+                  children: [
+                    buildSectionBox('Séries populaires', getPopularSeries),
+                    const SizedBox(height: 30),
+                    buildSectionBox('Comics populaires', getPopularComics),
+                    const SizedBox(height: 30),
+                    buildSectionBox('Films populaires', getPopularMovies),
+                    const SizedBox(height: 30),
+                  ],
+                )),
           ],
         ),
       ),
     );
   }
 
-  Widget buildSectionBox(String title) {
+  Widget buildSectionBox(String title, Future<List<Comic>> Function() futureItems){
     return Transform.translate(
         offset: const Offset(10, 20),
         child: Container(
@@ -76,7 +74,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 22, left: 20, right: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -90,8 +88,7 @@ class _HomePageState extends State<HomePage> {
                             color: const Color(0XFFFF8100),
                           ),
                         ),
-                        const SizedBox(
-                            width: 10), // Espace entre le point et le texte
+                        const SizedBox(width: 10),
                         Text(
                           title,
                           style: TextStyle(
@@ -122,6 +119,63 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              //const Padding(padding: EdgeInsets.only(top: 20, left: 10)),
+              Container(
+                height: 250,
+                padding: const EdgeInsets.only(left: 10, top: 15),
+                child: FutureBuilder<List<Comic>>(
+                  future: futureItems(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          Comic comic = snapshot.data![index];
+                          return SizedBox(
+                            width: 180,
+                            height: 24,
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              color: const Color(0XFF284C6A),
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                      borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                                      child: Image.network(
+                                        comic.imageUrl,
+                                        width: double.infinity,
+                                        height: 177,
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.topCenter,
+                                      ),
+                                    ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    comic.name,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: GoogleFonts.nunito().fontFamily,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    } else if (snapshot.hasError) {
+                      return const Text('Erreur de chargement');
+                    }
+                    return const Center(child: CircularProgressIndicator());
+                  },
                 ),
               ),
             ],
