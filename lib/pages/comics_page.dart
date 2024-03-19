@@ -1,3 +1,4 @@
+import 'package:comic_vine/pages/comic_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,9 +38,18 @@ class _ComicsPageState extends State<ComicsPage> {
                 child: ListView.builder(
                   itemCount: 5,
                   itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 3.75,
-                      child: Card(
+                    return InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ComicDetail()
+                            )
+                        );
+                      },
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height / 3.75,
+                        child: Card(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20)
                           ),
@@ -62,25 +72,25 @@ class _ComicsPageState extends State<ComicsPage> {
                                 ),
                               ),
                               Container(
-                                  width: 60,
-                                  height: 40,
-                                  alignment: Alignment.center,
-                                  margin:
-                                      const EdgeInsets.only(left: 10, top: 10),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100),
-                                    color: const Color(0XFFFF8100),
-                                  ),
-                                  child: Text(
-                                    '#${index + 1}',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontFamily: GoogleFonts.nunito().fontFamily,
-                                      fontWeight: FontWeight.w900,
-                                    ),
+                                width: 60,
+                                height: 40,
+                                alignment: Alignment.center,
+                                margin:
+                                const EdgeInsets.only(left: 10, top: 10),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: const Color(0XFFFF8100),
+                                ),
+                                child: Text(
+                                  '#${index + 1}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 22,
+                                    fontFamily: GoogleFonts.nunito().fontFamily,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
+                              ),
 
                               Positioned(
                                 top: 30,
@@ -88,81 +98,83 @@ class _ComicsPageState extends State<ComicsPage> {
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width / 1.85,
                                   child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children:[
-                                      SizedBox(
-                                        width: MediaQuery.of(context).size.width / 1.85,
-                                        height: 52,
-                                        child: Text(
-                                          'Batman',
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children:[
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width / 1.85,
+                                          height: 52,
+                                          child: Text(
+                                            'Batman',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: GoogleFonts.nunito().fontFamily,
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(padding: EdgeInsets.only(top: 10)),
+                                        Text(
+                                          'DC Comics',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: 20,
+                                            fontSize: 18,
                                             fontFamily: GoogleFonts.nunito().fontFamily,
-                                            fontWeight: FontWeight.w700,
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle: FontStyle.italic,
                                           ),
                                         ),
-                                      ),
-                                      const Padding(padding: EdgeInsets.only(top: 10)),
-                                      Text(
-                                        'DC Comics',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 18,
-                                          fontFamily: GoogleFonts.nunito().fontFamily,
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle: FontStyle.italic,
+                                        const Padding(padding: EdgeInsets.only(top: 20)),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/SVG/ic_books_bicolor.svg',
+                                              width: 16,
+                                              colorFilter:
+                                              const ColorFilter.mode(Color(0xFF69727D), BlendMode.srcIn),
+                                            ),
+                                            const Padding(padding: EdgeInsets.only(left: 5)),
+                                            Text(
+                                              'N°16',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: GoogleFonts.nunito().fontFamily,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      const Padding(padding: EdgeInsets.only(top: 20)),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/SVG/ic_books_bicolor.svg',
-                                            width: 16,
-                                            colorFilter:
-                                            const ColorFilter.mode(Color(0xFF69727D), BlendMode.srcIn),
-                                          ),
-                                          const Padding(padding: EdgeInsets.only(left: 5)),
-                                          Text(
-                                            'N°16',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: GoogleFonts.nunito().fontFamily,
-                                              fontWeight: FontWeight.w600,
+                                        const Padding(padding: EdgeInsets.only(top: 15)),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/SVG/ic_calendar_bicolor.svg',
+                                              width: 16,
+                                              colorFilter:
+                                              const ColorFilter.mode(Color(0xFF69727D), BlendMode.srcIn),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      const Padding(padding: EdgeInsets.only(top: 15)),
-                                      Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/SVG/ic_calendar_bicolor.svg',
-                                            width: 16,
-                                            colorFilter:
-                                            const ColorFilter.mode(Color(0xFF69727D), BlendMode.srcIn),
-                                          ),
-                                          const Padding(padding: EdgeInsets.only(left: 5)),
-                                          Text(
-                                            'Mai 1970',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12,
-                                              fontFamily: GoogleFonts.nunito().fontFamily,
-                                              fontWeight: FontWeight.w600,
+                                            const Padding(padding: EdgeInsets.only(left: 5)),
+                                            Text(
+                                              'Mai 1970',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontFamily: GoogleFonts.nunito().fontFamily,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    ]
+                                          ],
+                                        )
+                                      ]
                                   ),
                                 ),
                               )
                             ],
-                          )
+                          ),
+
+                        ),
                       ),
                     );
                   },
