@@ -1,6 +1,9 @@
+import 'package:comic_vine/comicvine_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import '../comicvine_request.dart';
 
 class FilmPage extends StatefulWidget {
   const FilmPage({super.key});
@@ -30,131 +33,183 @@ class _FilmPageState extends State<FilmPage> {
                         fontFamily: GoogleFonts.nunito().fontFamily)),
               ),
               Container(
-                width: MediaQuery.of(context).size.width - 10,
-                height: MediaQuery.of(context).size.height - 230,
-                padding: const EdgeInsets.only(left: 10, top: 10),
-                color: const Color(0XFF15232E),
-                child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 4.75,
-                      child: Card(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)
-                          ),
-                          color: const Color(0XFF1E3243),
-                          margin: const EdgeInsets.only(bottom: 20),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 25,
-                                left: 20,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                    'https://www.superherodb.com/pictures2/portraits/10/100/10060.jpg',
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    height: MediaQuery.of(context).size.height / 7,
-                                    alignment: Alignment.topCenter,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: 60,
-                                height: 40,
-                                alignment: Alignment.center,
-                                margin:
-                                const EdgeInsets.only(left: 10, top: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(100),
-                                  color: const Color(0XFFFF8100),
-                                ),
-                                child: Text(
-                                  '#${index + 1}',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontFamily: GoogleFonts.nunito().fontFamily,
-                                    fontWeight: FontWeight.w900,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 25,
-                                left: MediaQuery.of(context).size.width / 2.4,
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width / 1.85,
-                                  child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children:[
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width / 1.85,
-                                          height: 52,
-                                          child: Text(
-                                            'Watchmen',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 20,
-                                              fontFamily: GoogleFonts.nunito().fontFamily,
-                                              fontWeight: FontWeight.w700,
-                                            ),
+                  width: MediaQuery.of(context).size.width - 10,
+                  height: MediaQuery.of(context).size.height - 230,
+                  padding: const EdgeInsets.only(left: 10, top: 10),
+                  color: const Color(0XFF15232E),
+                  child: FutureBuilder<MovieResponse>(
+                    future: NetworkRequest().loadListMovies(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.results.length,
+                          itemBuilder: (context, index) {
+                            final movie = snapshot.data!.results[index];
+                            String date = movie.releaseDate;
+                            date = date.substring(0, 4);
+                            return SizedBox(
+                              height: MediaQuery.of(context).size.height / 4.75,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  color: const Color(0XFF1E3243),
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 25,
+                                        left: 20,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            movie.image,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width /
+                                                3,
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                7,
+                                            alignment: Alignment.topCenter,
+                                            fit: BoxFit.cover,
                                           ),
                                         ),
-                                        const Padding(padding: EdgeInsets.only(top: 10)),
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/SVG/ic_movie_bicolor.svg',
-                                              width: 16,
-                                              colorFilter:
-                                              const ColorFilter.mode(Color(0xFF69727D), BlendMode.srcIn),
-                                            ),
-                                            const Padding(padding: EdgeInsets.only(left: 5)),
-                                            Text(
-                                              '136 minutes',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: GoogleFonts.nunito().fontFamily,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 40,
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            left: 10, top: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(100),
+                                          color: const Color(0XFFFF8100),
                                         ),
-                                        const Padding(padding: EdgeInsets.only(top: 10)),
-                                        Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                              'assets/SVG/ic_calendar_bicolor.svg',
-                                              width: 16,
-                                              colorFilter:
-                                              const ColorFilter.mode(Color(0xFF69727D), BlendMode.srcIn),
-                                            ),
-                                            const Padding(padding: EdgeInsets.only(left: 5)),
-                                            Text(
-                                              'Mai 1970',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: GoogleFonts.nunito().fontFamily,
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        )
-                                      ]
-                                  ),
-                                ),
-                              )
-                            ],
-                          )
-                      ),
-                    );
-                  },
-                ),
-              )
+                                        child: Text(
+                                          '#${index + 1}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontFamily:
+                                                GoogleFonts.nunito().fontFamily,
+                                            fontWeight: FontWeight.w900,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 25,
+                                        left:
+                                            MediaQuery.of(context).size.width /
+                                                2.4,
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.85,
+                                          child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.85,
+                                                  height: 52,
+                                                  child: Text(
+                                                    movie.name,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                      fontFamily:
+                                                          GoogleFonts.nunito()
+                                                              .fontFamily,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_movie_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
+                                                          const ColorFilter
+                                                              .mode(
+                                                              Color(0xFF69727D),
+                                                              BlendMode.srcIn),
+                                                    ),
+                                                    const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 5)),
+                                                    Text(
+                                                      '${movie.runtime} min',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
+                                                                .fontFamily,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_calendar_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
+                                                          const ColorFilter
+                                                              .mode(
+                                                              Color(0xFF69727D),
+                                                              BlendMode.srcIn),
+                                                    ),
+                                                    const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 5)),
+                                                    Text(
+                                                      date,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
+                                                                .fontFamily,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ]),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ))
             ],
           ),
         ));
