@@ -1,8 +1,8 @@
+import 'package:comic_vine/comicvine_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../api_call.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -47,11 +47,11 @@ class _HomePageState extends State<HomePage> {
                 offset: const Offset(0, -80),
                 child: Column(
                   children: [
-                    buildSectionBox('Séries populaires', getPopularSeries),
+                    buildSectionBox('Séries populaires', NetworkRequest().loadSeries()),
                     const SizedBox(height: 30),
-                    buildSectionBox('Comics populaires', getPopularComics),
+                    buildSectionBox('Comics populaires', NetworkRequest().loadComics()),
                     const SizedBox(height: 30),
-                    buildSectionBox('Films populaires', getPopularMovies),
+                    buildSectionBox('Films populaires', NetworkRequest().loadMovies()),
                     const SizedBox(height: 30),
                   ],
                 )),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildSectionBox(String title, Future<List<Comic>> Function() futureItems){
+  Widget buildSectionBox(String title, Future<dynamic> futureItems){
     return Transform.translate(
         offset: const Offset(10, 20),
         child: Container(
@@ -125,15 +125,15 @@ class _HomePageState extends State<HomePage> {
               Container(
                 height: 250,
                 padding: const EdgeInsets.only(left: 10, top: 15),
-                child: FutureBuilder<List<Comic>>(
-                  future: futureItems(),
+                child: FutureBuilder<dynamic>(
+                  future: futureItems,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
                         scrollDirection: Axis.horizontal,
-                        itemCount: snapshot.data!.length,
+                        itemCount: snapshot.data!.results.length,
                         itemBuilder: (context, index) {
-                          Comic comic = snapshot.data![index];
+                          final item = snapshot.data!.results[index];
                           return SizedBox(
                             width: 180,
                             height: 24,
@@ -147,24 +147,28 @@ class _HomePageState extends State<HomePage> {
                                   ClipRRect(
                                       borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
                                       child: Image.network(
-                                        comic.imageUrl,
+                                        item.image,
                                         width: double.infinity,
                                         height: 177,
                                         fit: BoxFit.cover,
                                         alignment: Alignment.topCenter,
                                       ),
                                     ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    comic.name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                      fontFamily: GoogleFonts.nunito().fontFamily,
-                                      fontWeight: FontWeight.w700,
+                                  Container(
+                                    width: double.infinity,
+                                    height: 50,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      item.name,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: GoogleFonts.nunito().fontFamily,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
