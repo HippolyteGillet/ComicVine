@@ -47,10 +47,14 @@ class ComicItem {
   final String name;
   @JsonKey(name: 'image', fromJson: _imageMediumUrlFromJson, defaultValue: '')
   final String image;
-  @JsonKey(name: 'api_detail_url', defaultValue: '')
-  final String apiUrl;
+  @JsonKey(name: 'name', defaultValue: '')
+  final String issueName;
+  @JsonKey(name: 'issue_number', defaultValue: '')
+  final String issueNumber;
+  @JsonKey(name: 'cover_date', defaultValue: '')
+  final String coverDate;
 
-  ComicItem(this.name, this.image, this.apiUrl);
+  ComicItem(this.name, this.image, this.issueName, this.issueNumber, this.coverDate);
 
   factory ComicItem.fromJson(Map<String, dynamic> json) =>
       _$ComicItemFromJson(json);
@@ -82,10 +86,12 @@ class MovieItem {
   final String name;
   @JsonKey(name: 'image', fromJson: _imageMediumUrlFromJson, defaultValue: '')
   final String image;
-  @JsonKey(name: 'api_detail_url', defaultValue: '')
-  final String apiUrl;
+  @JsonKey(name: 'runtime', defaultValue: '')
+  final String runtime;
+  @JsonKey(name:'release_date', defaultValue: '')
+  final String releaseDate;
 
-  MovieItem(this.name, this.image, this.apiUrl);
+  MovieItem(this.name, this.image, this.runtime, this.releaseDate);
 
   factory MovieItem.fromJson(Map<String, dynamic> json) =>
       _$MovieItemFromJson(json);
@@ -115,16 +121,23 @@ class SeriesItem {
   final String name;
   @JsonKey(name: 'image', fromJson: _imageMediumUrlFromJson, defaultValue: '')
   final String image;
-  @JsonKey(name: 'api_detail_url', defaultValue: '')
-  final String apiUrl;
+  @JsonKey(name:'publisher', fromJson: _publisherNameFromJson, defaultValue: '')
+  final String publisher;
+  @JsonKey(name:"count_of_episodes", defaultValue: 0)
+  final int countOfEpisodes;
+  @JsonKey(name:'start_year', defaultValue: '')
+  final String startYear;
 
-  SeriesItem(this.name, this.image, this.apiUrl);
+  SeriesItem(this.name, this.image, this.publisher, this.countOfEpisodes, this.startYear);
 
   factory SeriesItem.fromJson(Map<String, dynamic> json) =>
       _$SeriesItemFromJson(json);
 
   static String _imageMediumUrlFromJson(Map<String, dynamic>? json) =>
       json?['medium_url'] as String? ?? '';
+
+  static String _publisherNameFromJson(Map<String, dynamic>? json) =>
+      json?['name'] as String? ?? '';
 
   Map<String, dynamic> toJson() => _$SeriesItemToJson(this);
 }

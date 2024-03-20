@@ -52,13 +52,17 @@ ComicItem _$ComicItemFromJson(Map<String, dynamic> json) => ComicItem(
           ? ''
           : ComicItem._imageMediumUrlFromJson(
               json['image'] as Map<String, dynamic>?),
-      json['api_detail_url'] as String? ?? '',
+      json['name'] as String? ?? '',
+      json['issue_number'] as String? ?? '',
+      json['cover_date'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ComicItemToJson(ComicItem instance) => <String, dynamic>{
       'volume': instance.name,
       'image': instance.image,
-      'api_detail_url': instance.apiUrl,
+      'name': instance.issueName,
+      'issue_number': instance.issueNumber,
+      'cover_date': instance.coverDate,
     };
 
 MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) =>
@@ -79,13 +83,15 @@ MovieItem _$MovieItemFromJson(Map<String, dynamic> json) => MovieItem(
           ? ''
           : MovieItem._imageMediumUrlFromJson(
               json['image'] as Map<String, dynamic>?),
-      json['api_detail_url'] as String? ?? '',
+      json['runtime'] as String? ?? '',
+      json['release_date'] as String? ?? '',
     );
 
 Map<String, dynamic> _$MovieItemToJson(MovieItem instance) => <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
-      'api_detail_url': instance.apiUrl,
+      'runtime': instance.runtime,
+      'release_date': instance.releaseDate,
     };
 
 SeriesResponse _$SeriesResponseFromJson(Map<String, dynamic> json) =>
@@ -106,12 +112,19 @@ SeriesItem _$SeriesItemFromJson(Map<String, dynamic> json) => SeriesItem(
           ? ''
           : SeriesItem._imageMediumUrlFromJson(
               json['image'] as Map<String, dynamic>?),
-      json['api_detail_url'] as String? ?? '',
+      json['publisher'] == null
+          ? ''
+          : SeriesItem._publisherNameFromJson(
+              json['publisher'] as Map<String, dynamic>?),
+      json['count_of_episodes'] as int? ?? 0,
+      json['start_year'] as String? ?? '',
     );
 
 Map<String, dynamic> _$SeriesItemToJson(SeriesItem instance) =>
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
-      'api_detail_url': instance.apiUrl,
+      'publisher': instance.publisher,
+      'count_of_episodes': instance.countOfEpisodes,
+      'start_year': instance.startYear,
     };

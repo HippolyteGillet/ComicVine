@@ -65,11 +65,23 @@ class NetworkRequest {
     return _api.getComics(5);
   }
 
+  Future<ComicResponse> loadListComics() {
+    return _api.getComics(50);
+  }
+
   Future<MovieResponse> loadMovies() {
     return _api.getMovies(5);
   }
 
+  Future<MovieResponse> loadListMovies() {
+    return _api.getMovies(50);
+  }
+
   Future<SeriesResponse> loadSeries() {
     return _api.getSeries(5);
+  }
+
+  Future<SeriesResponse> loadListSeries() {
+    return _api.getSeries(50);
   }
 }

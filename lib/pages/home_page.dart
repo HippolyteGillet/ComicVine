@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                         },
                       );
                     } else if (snapshot.hasError) {
-                      return const Text('Erreur de chargement');
+                      return Text('${snapshot.error}');
                     }
                     return const Center(child: CircularProgressIndicator());
                   },
