@@ -9,22 +9,35 @@ part 'comicvine_request.g.dart';
 abstract class ComicVineAPI {
   factory ComicVineAPI(Dio dio, {required String baseUrl}) = _ComicVineAPI;
 
-  @GET('characters')
-  Future<CharactersResponse> getCharacters(@Query('limit') int limit);
-
   @GET('issues')
   Future<ComicResponse> getComics(@Query('limit') int limit);
+
+  @GET('{url}')
+  Future<ComicItemDetailResponse> getComicDetail(@Path('url') String url);
+
+  @GET('{url}')
+  Future<PersonResponse> getPersonDetails(@Path('url') String url);
+
+  @GET('{url}')
+  Future<CharactersResponse> getCharacterDetails(@Path('url') String url);
+
+  @GET('{url}')
+  Future<EpisodeResponse> getEpisodeDetails(@Path('url') String url);
 
   @GET('movies')
   Future<MovieResponse> getMovies(@Query('limit') int limit);
 
+  @GET('{url}')
+  Future<MovieDetailResponse> getMovieDetail(@Path('url') String url);
+
   @GET('series_list')
   Future<SeriesResponse> getSeries(@Query('limit') int limit);
+
+  @GET('{url}')
+  Future<SerieDetailResponse> getSeriesDetail(@Path('url') String url);
 }
 
 class NetworkRequest {
-  // Ici enlever base URL et rajouter l'interceptor
-
   final ComicVineAPI _api = ComicVineAPI(
     Dio(
       BaseOptions(
@@ -57,16 +70,36 @@ class NetworkRequest {
     baseUrl: '',
   );
 
-  Future<CharactersResponse> loadCharacters() {
-    return _api.getCharacters(20);
-  }
-
   Future<ComicResponse> loadComics() {
     return _api.getComics(5);
   }
 
   Future<ComicResponse> loadListComics() {
     return _api.getComics(50);
+  }
+
+  Future<ComicItemDetailResponse> loadComicDetail(String url) {
+    String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
+    debugPrint('Clean URL: $cleanUrl');
+    return _api.getComicDetail(cleanUrl);
+  }
+
+  Future<PersonResponse> loadPersonDetails(String url) {
+    String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
+    debugPrint('Clean URL Person: $cleanUrl');
+    return _api.getPersonDetails(cleanUrl);
+  }
+
+  Future<CharactersResponse> loadCharacterDetails(String url){
+    String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
+    debugPrint('Clean URL Character: $cleanUrl');
+    return _api.getCharacterDetails(cleanUrl);
+  }
+
+  Future<EpisodeResponse> loadEpisodeDetails(String url){
+    String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
+    debugPrint('Clean URL Episode: $cleanUrl');
+    return _api.getEpisodeDetails(cleanUrl);
   }
 
   Future<MovieResponse> loadMovies() {
@@ -77,8 +110,20 @@ class NetworkRequest {
     return _api.getMovies(50);
   }
 
+  Future<MovieDetailResponse> loadMovieDetail(String url) {
+    String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
+    debugPrint('Clean URL Movie: $cleanUrl');
+    return _api.getMovieDetail(cleanUrl);
+  }
+
   Future<SeriesResponse> loadSeries() {
     return _api.getSeries(5);
+  }
+
+  Future<SerieDetailResponse> loadSeriesDetail(String url) {
+    String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
+    debugPrint('Clean URL Series: $cleanUrl');
+    return _api.getSeriesDetail(cleanUrl);
   }
 
   Future<SeriesResponse> loadListSeries() {
