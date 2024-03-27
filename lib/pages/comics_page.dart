@@ -1,11 +1,13 @@
 import 'package:comic_vine/pages/comic_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
-import '../comicvine_model.dart';
-import '../comicvine_request.dart';
+import '../comicvine_blocs.dart';
+import '../comicvine_events.dart';
+import '../comicvine_state.dart';
 
 class ComicsPage extends StatefulWidget {
   const ComicsPage({super.key});
@@ -19,34 +21,39 @@ class _ComicsPageState extends State<ComicsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0XFF15232E),
-        body: SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              SizedBox(
-                width: MediaQuery.of(context).size.width - 50,
-                height: 110,
-                child: Text('Comics les plus populaires',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 35,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: GoogleFonts.nunito().fontFamily)),
-              ),
-              Container(
+        body: BlocProvider(
+          create: (context) => ComicsBloc()..add(ComicsRequested()),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 50,
+                  height: 110,
+                  child: Text('Comics les plus populaires',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 35,
+                          fontWeight: FontWeight.w700,
+                          fontFamily: GoogleFonts.nunito().fontFamily)),
+                ),
+                Container(
                   width: MediaQuery.of(context).size.width - 10,
                   height: MediaQuery.of(context).size.height - 230,
                   padding: const EdgeInsets.only(left: 10, top: 10),
                   color: const Color(0XFF15232E),
-                  child: FutureBuilder<ComicResponse>(
-                    future: NetworkRequest().loadListComics(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
+                  child: BlocBuilder<ComicsBloc, ComicsState>(
+                    builder: (context, state) {
+                      if (state is ComicsLoadInProgress) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is ComicsLoadSuccess) {
                         return ListView.builder(
-                          itemCount: snapshot.data!.results.length,
+                          itemCount: state.comics.length,
                           itemBuilder: (context, index) {
-                            final item = snapshot.data!.results[index];
+                            final item = state.comics[index];
                             String date = item.coverDate;
                             DateTime dateTime = DateTime.parse(date);
                             date = DateFormat('MMMM yyyy')
@@ -57,7 +64,7 @@ class _ComicsPageState extends State<ComicsPage> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const ComicDetail()));
+                                            ComicDetail(item.apiUrl)));
                               },
                               child: SizedBox(
                                 height:
@@ -118,40 +125,60 @@ class _ComicsPageState extends State<ComicsPage> {
                                             MediaQuery.of(context).size.width /
                                                 2.4,
                                         child: SizedBox(
-                                          width: MediaQuery.of(context).size.width / 1.85,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width /
+                                              1.85,
                                           child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 SizedBox(
-                                                  width: MediaQuery.of(context).size.width / 1.85,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.85,
                                                   height: 52,
                                                   child: Text(
+                                                    //volume.name,
                                                     item.name,
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 20,
-                                                      fontFamily: GoogleFonts.nunito().fontFamily,
-                                                      fontWeight: FontWeight.w700,
+                                                      fontFamily:
+                                                          GoogleFonts.nunito()
+                                                              .fontFamily,
+                                                      fontWeight:
+                                                          FontWeight.w700,
                                                     ),
                                                   ),
                                                 ),
-                                                const Padding(padding: EdgeInsets.only(top: 5)),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 5)),
                                                 SizedBox(
-                                                  width: MediaQuery.of(context).size.width / 1.85,
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width /
+                                                      1.85,
                                                   height: 30,
                                                   child: Text(
                                                     item.issueName,
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 18,
-                                                      fontFamily: GoogleFonts.nunito().fontFamily,
-                                                      fontWeight: FontWeight.w600,
-                                                      fontStyle: FontStyle.italic,
+                                                      fontFamily:
+                                                          GoogleFonts.nunito()
+                                                              .fontFamily,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FontStyle.italic,
                                                     ),
                                                   ),
                                                 ),
-
                                                 const Padding(
                                                     padding: EdgeInsets.only(
                                                         top: 20)),
@@ -226,13 +253,15 @@ class _ComicsPageState extends State<ComicsPage> {
                             );
                           },
                         );
-                      } else if (snapshot.hasError) {
-                        return const Text('Erreur de chargement');
+                      } else if (state is ComicsLoadFailure) {
+                        return const Text("Failed to load comics");
                       }
-                      return const Center(child: CircularProgressIndicator());
+                      return Container(); // État initial ou inattendu
                     },
-                  ))
-            ],
+                  ),
+                )
+              ],
+            ),
           ),
         ));
   }
