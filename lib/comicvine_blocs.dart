@@ -28,7 +28,8 @@ class ComicsBloc extends Bloc<ComicsEvent, ComicsState> {
       ComicDetailRequested event, Emitter<ComicsState> emit) async {
     try {
       emit(ComicDetailLoadInProgress());
-      final comicDetailResponse = await NetworkRequest().loadComicDetail(event.url);
+      final comicDetailResponse =
+          await NetworkRequest().loadComicDetail(event.url);
       final comic = comicDetailResponse.results;
       final personCredits = comic.personCredits;
 
@@ -80,7 +81,8 @@ class SeriesBloc extends Bloc<ComicsEvent, SeriesState> {
       SerieDetailRequested event, Emitter<SeriesState> emit) async {
     try {
       emit(SerieDetailLoadInProgress());
-      final seriesDetailResponse = await NetworkRequest().loadSeriesDetail(event.url);
+      final seriesDetailResponse =
+          await NetworkRequest().loadSeriesDetail(event.url);
       final serie = seriesDetailResponse.results;
       final characters = serie.charactersUrls;
 
@@ -116,7 +118,8 @@ class MoviesBloc extends Bloc<ComicsEvent, MoviesState> {
       MovieDetailRequested event, Emitter<MoviesState> emit) async {
     try {
       emit(MovieDetailLoadInProgress());
-      final movieDetailResponse = await NetworkRequest().loadMovieDetail(event.url);
+      final movieDetailResponse =
+          await NetworkRequest().loadMovieDetail(event.url);
       final movie = movieDetailResponse.results;
 
       emit(MovieDetailLoadSuccess(movie));
@@ -171,6 +174,44 @@ class EpisodesBloc extends Bloc<ComicsEvent, EpisodesState> {
       emit(EpisodesLoadSuccess(episodes));
     } catch (_) {
       emit(EpisodesLoadFailure());
+    }
+  }
+}
+
+/// Search
+class SearchBloc extends Bloc<ComicsEvent, SearchState> {
+  SearchBloc() : super(SearchInitial()) {
+    on<SearchRequested>(_onSearchRequested);
+  }
+
+  Future<void> _onSearchRequested(
+      SearchRequested event, Emitter<SearchState> emit) async {
+    try {
+      emit(SearchLoadInProgress());
+      debugPrint('Search Load In Progress');
+      final searchIssueResults =
+          await NetworkRequest().searchIssue(event.query);
+      final searchCharacterResults =
+          await NetworkRequest().searchCharacter(event.query);
+
+      List<ComicItemDetail> comicItems = [];
+      for (var issue in searchIssueResults.results) {
+        final item = await NetworkRequest().loadComicDetail(issue.apiDetailUrl);
+        comicItems.add(item.results);
+      }
+
+      List<CharactersItem> characterItems = [];
+      for (var character in searchCharacterResults.results) {
+        final item =
+            await NetworkRequest().loadCharacterDetails(character.apiDetailUrl);
+        characterItems.add(item.results);
+      }
+
+      emit(SearchLoadSuccess(comicItems, characterItems));
+    } catch (e, stacktrace) {
+      debugPrint('Error: $e');
+      debugPrint('Stacktrace: $stacktrace');
+      emit(SearchLoadFailure());
     }
   }
 }

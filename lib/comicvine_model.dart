@@ -398,3 +398,30 @@ class PersonItem {
 
   Map<String, dynamic> toJson() => _$PersonItemToJson(this);
 }
+
+/// Search
+@JsonSerializable()
+class SearchResponse {
+  @JsonKey(name: 'results')
+  final List<SearchItem> results;
+
+  SearchResponse(this.results);
+
+  factory SearchResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchResponseToJson(this);
+}
+
+@JsonSerializable()
+class SearchItem {
+  @JsonKey(name:'api_detail_url', defaultValue: '')
+  final String apiDetailUrl;
+
+  SearchItem(this.apiDetailUrl);
+
+  factory SearchItem.fromJson(Map<String, dynamic> json) =>
+      _$SearchItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SearchItemToJson(this);
+}

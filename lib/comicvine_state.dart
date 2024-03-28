@@ -121,3 +121,18 @@ class EpisodesLoadSuccess extends EpisodesState {
 }
 
 class EpisodesLoadFailure extends EpisodesState {}
+
+/// Search
+abstract class SearchState {}
+
+class SearchInitial extends SearchState {}
+
+class SearchLoadInProgress extends SearchState {}
+
+class SearchLoadSuccess extends SearchState {
+  final List<ComicItemDetail> searchIssueResults;
+  final List<CharactersItem> searchCharacterResults;
+  SearchLoadSuccess(this.searchIssueResults, this.searchCharacterResults);
+}
+
+class SearchLoadFailure extends SearchState {}

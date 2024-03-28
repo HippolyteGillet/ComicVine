@@ -1,6 +1,7 @@
 import 'package:comic_vine/comicvine_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:retrofit/http.dart';
 import 'package:retrofit/retrofit.dart';
 
 part 'comicvine_request.g.dart';
@@ -35,6 +36,10 @@ abstract class ComicVineAPI {
 
   @GET('{url}')
   Future<SerieDetailResponse> getSeriesDetail(@Path('url') String url);
+
+  @GET('search')
+  Future<SearchResponse> search(@Query('query') String query,
+      @Query('resources') String resources, @Query('limit') int limit);
 }
 
 class NetworkRequest {
@@ -47,26 +52,26 @@ class NetworkRequest {
         },
       ),
     )..interceptors.add(
-      InterceptorsWrapper(
-        onRequest: (
+        InterceptorsWrapper(
+          onRequest: (
             RequestOptions options,
             RequestInterceptorHandler handler,
-            ) {
-          // Constructing the final URL to be used for the request
-          var finalUrl = 'https://api.formation-android.fr/comicvine?url=${options.uri.path}?';
+          ) {
+            // Constructing the final URL to be used for the request
+            var finalUrl =
+                'https://api.formation-android.fr/comicvine?url=${options.uri.path}?';
 
-          // Logging the final URL for debugging purposes
-          debugPrint('Final Request URL: $finalUrl&${options.uri.query}');
-          debugPrint('Query Parameters: ${options.queryParameters}');
+            // Logging the final URL for debugging purposes
+            debugPrint('Final Request URL: $finalUrl&${options.uri.query}');
+            debugPrint('Query Parameters: ${options.queryParameters}');
 
-          return handler.next(
-            RequestOptions(
-                path: finalUrl,
-                queryParameters: options.uri.queryParameters),
-          );
-        },
+            return handler.next(
+              RequestOptions(
+                  path: finalUrl, queryParameters: options.uri.queryParameters),
+            );
+          },
+        ),
       ),
-    ),
     baseUrl: '',
   );
 
@@ -90,13 +95,13 @@ class NetworkRequest {
     return _api.getPersonDetails(cleanUrl);
   }
 
-  Future<CharactersResponse> loadCharacterDetails(String url){
+  Future<CharactersResponse> loadCharacterDetails(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
     debugPrint('Clean URL Character: $cleanUrl');
     return _api.getCharacterDetails(cleanUrl);
   }
 
-  Future<EpisodeResponse> loadEpisodeDetails(String url){
+  Future<EpisodeResponse> loadEpisodeDetails(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
     debugPrint('Clean URL Episode: $cleanUrl');
     return _api.getEpisodeDetails(cleanUrl);
@@ -128,5 +133,13 @@ class NetworkRequest {
 
   Future<SeriesResponse> loadListSeries() {
     return _api.getSeries(50);
+  }
+
+  Future<SearchResponse> searchIssue(String query) {
+    return _api.search(query, 'issue', 5);
+  }
+
+  Future<SearchResponse> searchCharacter(String query) {
+    return _api.search(query, 'character', 5);
   }
 }

@@ -30,3 +30,8 @@ class MovieDetailRequested extends ComicsEvent {
   final String url;
   MovieDetailRequested(this.url);
 }
+
+class SearchRequested extends ComicsEvent {
+  final String query;
+  SearchRequested(this.query);
+}
