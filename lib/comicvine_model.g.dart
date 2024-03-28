@@ -344,3 +344,24 @@ Map<String, dynamic> _$PersonItemToJson(PersonItem instance) =>
       'name': instance.name,
       'image': instance.image,
     };
+
+SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) =>
+    SearchResponse(
+      (json['results'] as List<dynamic>)
+          .map((e) => SearchItem.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$SearchResponseToJson(SearchResponse instance) =>
+    <String, dynamic>{
+      'results': instance.results,
+    };
+
+SearchItem _$SearchItemFromJson(Map<String, dynamic> json) => SearchItem(
+      json['api_detail_url'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$SearchItemToJson(SearchItem instance) =>
+    <String, dynamic>{
+      'api_detail_url': instance.apiDetailUrl,
+    };
