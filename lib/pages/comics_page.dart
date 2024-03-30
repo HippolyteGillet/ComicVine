@@ -40,7 +40,7 @@ class _ComicsPageState extends State<ComicsPage> {
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width - 10,
-                  height: MediaQuery.of(context).size.height - 230,
+                  height: MediaQuery.of(context).size.height / 1.1,
                   padding: const EdgeInsets.only(left: 10, top: 10),
                   color: const Color(0XFF15232E),
                   child: BlocBuilder<ComicsBloc, ComicsState>(
@@ -62,13 +62,11 @@ class _ComicsPageState extends State<ComicsPage> {
                               onTap: () {
                                 Navigator.push(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ComicDetail(item.apiUrl)));
+                                    MaterialPageRoute(builder: (context) => ComicDetail(item.apiUrl)));
                               },
                               child: SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height / 3.75,
+                                    MediaQuery.of(context).size.height / 3.5,
                                 child: Card(
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20)),
@@ -91,7 +89,7 @@ class _ComicsPageState extends State<ComicsPage> {
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                5,
+                                                4.8,
                                             alignment: Alignment.topCenter,
                                             fit: BoxFit.cover,
                                           ),

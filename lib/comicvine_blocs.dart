@@ -69,7 +69,7 @@ class SeriesBloc extends Bloc<ComicsEvent, SeriesState> {
       SeriesRequested event, Emitter<SeriesState> emit) async {
     try {
       emit(SeriesLoadInProgress());
-      final series = await NetworkRequest().loadSeries();
+      final series = await NetworkRequest().loadListSeries();
 
       emit(SeriesLoadSuccess(series.results));
     } catch (_) {
@@ -106,7 +106,7 @@ class MoviesBloc extends Bloc<ComicsEvent, MoviesState> {
       MoviesRequested event, Emitter<MoviesState> emit) async {
     try {
       emit(MoviesLoadInProgress());
-      final movies = await NetworkRequest().loadMovies();
+      final movies = await NetworkRequest().loadListMovies();
 
       emit(MoviesLoadSuccess(movies.results));
     } catch (_) {

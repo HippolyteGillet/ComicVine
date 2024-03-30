@@ -85,25 +85,21 @@ class NetworkRequest {
 
   Future<ComicItemDetailResponse> loadComicDetail(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
-    debugPrint('Clean URL: $cleanUrl');
     return _api.getComicDetail(cleanUrl);
   }
 
   Future<PersonResponse> loadPersonDetails(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
-    debugPrint('Clean URL Person: $cleanUrl');
     return _api.getPersonDetails(cleanUrl);
   }
 
   Future<CharactersResponse> loadCharacterDetails(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
-    debugPrint('Clean URL Character: $cleanUrl');
     return _api.getCharacterDetails(cleanUrl);
   }
 
   Future<EpisodeResponse> loadEpisodeDetails(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
-    debugPrint('Clean URL Episode: $cleanUrl');
     return _api.getEpisodeDetails(cleanUrl);
   }
 
@@ -117,7 +113,6 @@ class NetworkRequest {
 
   Future<MovieDetailResponse> loadMovieDetail(String url) {
     String cleanUrl = url.replaceAll('https://comicvine.gamespot.com/api/', '');
-    debugPrint('Clean URL Movie: $cleanUrl');
     return _api.getMovieDetail(cleanUrl);
   }
 

@@ -18,17 +18,31 @@ Map<String, dynamic> _$CharactersResponseToJson(CharactersResponse instance) =>
 
 CharactersItem _$CharactersItemFromJson(Map<String, dynamic> json) =>
     CharactersItem(
-      json['name'] as String? ?? '',
+      json['name'] as String? ?? 'N/A',
       json['image'] == null
           ? ''
           : CharactersItem._imageIconUrlFromJson(
               json['image'] as Map<String, dynamic>?),
+      json['description'] as String? ?? 'N/A',
+      json['real_name'] as String? ?? 'N/A',
+      json['aliases'] as String? ?? 'N/A',
+      json['creators'] == null
+          ? ['N/A']
+          : CharactersItem._creatorsNameFromJson(json['creators'] as List?),
+      json['gender'] as int? ?? 0,
+      json['birth'] as String? ?? 'N/A',
     );
 
 Map<String, dynamic> _$CharactersItemToJson(CharactersItem instance) =>
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
+      'description': instance.description,
+      'real_name': instance.realName,
+      'aliases': instance.aliases,
+      'creators': instance.creators,
+      'gender': instance.gender,
+      'birth': instance.birth,
     };
 
 EpisodeResponse _$EpisodeResponseFromJson(Map<String, dynamic> json) =>
@@ -47,12 +61,16 @@ EpisodeItem _$EpisodeItemFromJson(Map<String, dynamic> json) => EpisodeItem(
           ? ''
           : EpisodeItem._imageMediumUrlFromJson(
               json['image'] as Map<String, dynamic>?),
+      json['episode_number'] as String? ?? '',
+      json['air_date'] as String? ?? '',
     );
 
 Map<String, dynamic> _$EpisodeItemToJson(EpisodeItem instance) =>
     <String, dynamic>{
       'name': instance.name,
       'image': instance.image,
+      'episode_number': instance.episodeNumber,
+      'air_date': instance.airDate,
     };
 
 ComicResponse _$ComicResponseFromJson(Map<String, dynamic> json) =>

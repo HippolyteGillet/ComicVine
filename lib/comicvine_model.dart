@@ -17,17 +17,33 @@ class CharactersResponse {
 
 @JsonSerializable()
 class CharactersItem {
-  @JsonKey(name:'name', defaultValue: '')
+  @JsonKey(name:'name', defaultValue: 'N/A')
   final String name;
   @JsonKey(name: 'image', fromJson: _imageIconUrlFromJson, defaultValue: '')
   final String image;
+  @JsonKey(name: 'description', defaultValue: 'N/A')
+  final String description;
+  @JsonKey(name: 'real_name', defaultValue: 'N/A')
+  final String realName;
+  @JsonKey(name: 'aliases', defaultValue: 'N/A')
+  final String aliases;
+  @JsonKey(name: 'creators', fromJson: _creatorsNameFromJson, defaultValue: ['N/A'])
+  final List<String> creators;
+  @JsonKey(name: 'gender', defaultValue: 0)
+  final int gender;
+  @JsonKey(name: 'birth', defaultValue: 'N/A')
+  final String birth;
 
-  CharactersItem(this.name, this.image);
+  CharactersItem(this.name, this.image, this.description, this.realName,
+      this.aliases, this.creators, this.gender, this.birth);
 
   factory CharactersItem.fromJson(Map<String, dynamic> json) =>
       _$CharactersItemFromJson(json);
   static String _imageIconUrlFromJson(Map<String, dynamic>? json) =>
       json?['icon_url'] as String? ?? '';
+  static List<String> _creatorsNameFromJson(List<dynamic>? json) =>
+      json?.map((e) => e['name'] as String).toList() ?? [];
+
 
   Map<String, dynamic> toJson() => _$CharactersItemToJson(this);
 }
@@ -51,8 +67,12 @@ class EpisodeItem {
   final String name;
   @JsonKey(name: 'image', fromJson: _imageMediumUrlFromJson, defaultValue: '')
   final String image;
+  @JsonKey(name: 'episode_number', defaultValue: '')
+  final String episodeNumber;
+  @JsonKey(name: 'air_date', defaultValue: '')
+  final String airDate;
 
-  EpisodeItem(this.name, this.image);
+  EpisodeItem(this.name, this.image, this.episodeNumber, this.airDate);
 
   factory EpisodeItem.fromJson(Map<String, dynamic> json) =>
       _$EpisodeItemFromJson(json);
