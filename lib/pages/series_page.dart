@@ -39,7 +39,7 @@ class _SeriesPageState extends State<SeriesPage> {
                 ),
                 Container(
                     width: MediaQuery.of(context).size.width - 10,
-                    height: MediaQuery.of(context).size.height - 230,
+                    height: MediaQuery.of(context).size.height / 1.1,
                     padding: const EdgeInsets.only(left: 10, top: 10),
                     color: const Color(0XFF15232E),
                     child: BlocBuilder<SeriesBloc, SeriesState>(
@@ -63,7 +63,7 @@ class _SeriesPageState extends State<SeriesPage> {
                                 },
                                 child: SizedBox(
                                   height:
-                                  MediaQuery.of(context).size.height / 4.25,
+                                  MediaQuery.of(context).size.height / 4,
                                   child: Card(
                                       shape: RoundedRectangleBorder(
                                           borderRadius:

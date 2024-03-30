@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:comic_vine/pages/character_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -40,9 +41,8 @@ class _ComicDetailState extends State<ComicDetail> {
                   date = DateFormat('MMMM yyyy').format(dateTime.toLocal());
                   debugPrint('Comic Detail: ${state.comic.name}');
                   return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Stack(clipBehavior: Clip.none, children: [
+                      Stack(children: [
                         Image.network(
                           state.comic.image,
                           width: MediaQuery.of(context).size.width,
@@ -57,287 +57,284 @@ class _ComicDetailState extends State<ComicDetail> {
                             color: Colors.black.withOpacity(0.5),
                           ),
                         ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height / 2.5,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 16, top: 45),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height / 3.2,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16, top: 45),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: const Icon(Icons.arrow_back_ios,
-                                          color: Colors.white),
-                                    ),
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width -
-                                          100,
-                                      child: Text(
-                                        state.comic.name,
-                                        style: TextStyle(
-                                          fontFamily:
-                                              GoogleFonts.nunito().fontFamily,
-                                          fontWeight: FontWeight.w700,
-                                          color: Colors.white,
-                                          fontSize: 20,
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          icon: const Icon(Icons.arrow_back_ios,
+                                              color: Colors.white),
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Row(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.network(
-                                        state.comic.image,
-                                        width: 100,
-                                        height: 130,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15),
-                                      child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              state.comic.issueName,
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontFamily: GoogleFonts.nunito()
-                                                    .fontFamily,
-                                                fontWeight: FontWeight.w700,
-                                              ),
+                                        SizedBox(
+                                          width: MediaQuery.of(context).size.width -
+                                              100,
+                                          child: Text(
+                                            state.comic.name,
+                                            style: TextStyle(
+                                              fontFamily:
+                                                  GoogleFonts.nunito().fontFamily,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.white,
+                                              fontSize: 20,
                                             ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 15)),
-                                            Row(
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(10),
+                                          child: Image.network(
+                                            state.comic.image,
+                                            width: 100,
+                                            height: 130,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(left: 15),
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                SvgPicture.asset(
-                                                  'assets/SVG/ic_books_bicolor.svg',
-                                                  width: 16,
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                          Colors.white,
-                                                          BlendMode.srcIn),
-                                                ),
-                                                const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 5)),
                                                 Text(
-                                                  'N°${state.comic.issueNumber}',
+                                                  state.comic.issueName,
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontFamily:
-                                                        GoogleFonts.nunito()
-                                                            .fontFamily,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                    fontFamily: GoogleFonts.nunito()
+                                                        .fontFamily,
+                                                    fontWeight: FontWeight.w700,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 15)),
-                                            Row(
-                                              children: [
-                                                SvgPicture.asset(
-                                                  'assets/SVG/ic_calendar_bicolor.svg',
-                                                  width: 16,
-                                                  colorFilter:
-                                                      const ColorFilter.mode(
-                                                          Colors.white,
-                                                          BlendMode.srcIn),
                                                 ),
                                                 const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 5)),
-                                                Text(
-                                                  date,
-                                                  style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 12,
-                                                    fontFamily:
-                                                        GoogleFonts.nunito()
-                                                            .fontFamily,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
+                                                    padding:
+                                                        EdgeInsets.only(top: 15)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_books_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
+                                                          const ColorFilter.mode(
+                                                              Colors.white,
+                                                              BlendMode.srcIn),
+                                                    ),
+                                                    const Padding(
+                                                        padding: EdgeInsets.only(
+                                                            left: 5)),
+                                                    Text(
+                                                      'N°${state.comic.issueNumber}',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
+                                                                .fontFamily,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ],
-                                            ),
-                                          ]),
+                                                const Padding(
+                                                    padding:
+                                                        EdgeInsets.only(top: 15)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_calendar_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
+                                                          const ColorFilter.mode(
+                                                              Colors.white,
+                                                              BlendMode.srcIn),
+                                                    ),
+                                                    const Padding(
+                                                        padding: EdgeInsets.only(
+                                                            left: 5)),
+                                                    Text(
+                                                      date,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
+                                                                .fontFamily,
+                                                        fontWeight: FontWeight.w600,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ]),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Positioned(
-                          bottom: 37,
-                          left: 0,
-                          right: 0,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: TabBar(
-                                tabs: const [
-                                  Tab(text: 'Histoire'),
-                                  Tab(text: 'Auteurs'),
-                                  Tab(text: 'Personnages'),
-                                ],
-                                dividerColor: Colors.transparent,
-                                indicatorWeight: 4,
-                                indicatorColor: Colors.orange,
-                                labelColor: Colors.white,
-                                unselectedLabelColor: Colors.grey,
-                                labelStyle: TextStyle(
-                                  fontFamily: GoogleFonts.nunito().fontFamily,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                          ),
-                        ),
-                        Positioned(
-                          top: 300,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                height:
-                                    MediaQuery.of(context).size.height / 1.5,
-                                decoration: const BoxDecoration(
-                                  color: Color(0XFF1E3243),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20),
-                                  ),
+                            Material(
+                              color: Colors.transparent,
+                              child: TabBar(
+                                  tabs: const [
+                                    Tab(text: 'Histoire'),
+                                    Tab(text: 'Auteurs'),
+                                    Tab(text: 'Personnages'),
+                                  ],
+                                  dividerColor: Colors.transparent,
+                                  indicatorWeight: 4,
+                                  indicatorColor: Colors.orange,
+                                  labelColor: Colors.white,
+                                  unselectedLabelColor: Colors.grey,
+                                  labelStyle: TextStyle(
+                                    fontFamily: GoogleFonts.nunito().fontFamily,
+                                    fontWeight: FontWeight.w600,
+                                  )),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height:
+                              MediaQuery.of(context).size.height / 1.62,
+                              decoration: const BoxDecoration(
+                                color: Color(0XFF1E3243),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
                                 ),
-                                child: TabBarView(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(16),
+                              ),
+                              child: TabBarView(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(16),
+                                    child: SingleChildScrollView(
                                       child: HtmlWidget(
                                         state.comic.description,
                                         textStyle: TextStyle(
                                             fontFamily:
-                                                GoogleFonts.nunito().fontFamily,
+                                            GoogleFonts.nunito().fontFamily,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 17,
                                             color: Colors.white),
                                       ),
                                     ),
-                                    ListView.builder(
-                                        itemCount: state.personDetails.length,
-                                        itemBuilder: (context, index) {
-                                          final person =
-                                              state.personDetails[index];
-                                          final role =
-                                              state.personCredit[index].role;
-                                          return Container(
-                                            transform:
-                                                Matrix4.translationValues(
-                                                    0, -20, 0),
-                                            width: MediaQuery.of(context)
-                                                .size
-                                                .width,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
-                                                12,
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 25)),
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(45),
-                                                  child: Image.network(
-                                                    person.image,
-                                                    width: 45,
-                                                    height: 45,
-                                                    fit: BoxFit.cover,
+                                  ),
+                                  ListView.builder(
+                                      itemCount: state.personDetails.length,
+                                      itemBuilder: (context, index) {
+                                        final person =
+                                        state.personDetails[index];
+                                        final role =
+                                            state.personCredit[index].role;
+                                        return SizedBox(
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width,
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height /
+                                              12,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            children: [
+                                              const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 25)),
+                                              ClipRRect(
+                                                borderRadius:
+                                                BorderRadius.circular(45),
+                                                child: Image.network(
+                                                  person.image,
+                                                  width: 45,
+                                                  height: 45,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              const Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 20)),
+                                              Column(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    person.name,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                      GoogleFonts.nunito()
+                                                          .fontFamily,
+                                                      fontWeight:
+                                                      FontWeight.w700,
+                                                    ),
                                                   ),
-                                                ),
-                                                const Padding(
-                                                    padding: EdgeInsets.only(
-                                                        left: 20)),
-                                                Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      person.name,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            GoogleFonts.nunito()
-                                                                .fontFamily,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
+                                                  Text(
+                                                    role,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontFamily:
+                                                      GoogleFonts.nunito()
+                                                          .fontFamily,
+                                                      fontWeight:
+                                                      FontWeight.w700,
                                                     ),
-                                                    Text(
-                                                      role,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 16,
-                                                        fontFamily:
-                                                            GoogleFonts.nunito()
-                                                                .fontFamily,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }),
-                                    ListView.builder(
-                                        itemCount: state.characterCredit.length,
-                                        itemBuilder: (context, index) {
-                                          final character =
-                                              state.characterCredit[index];
-                                          return Container(
-                                            transform:
-                                                Matrix4.translationValues(
-                                                    0, -20, 0),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                  ListView.builder(
+                                      itemCount: state.characterCredit.length,
+                                      itemBuilder: (context, index) {
+                                        final character =
+                                        state.characterCredit[index];
+                                        return InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                       CharacterDetail(character: character,)));
+                                          },
+                                          child: SizedBox(
                                             width: MediaQuery.of(context)
                                                 .size
                                                 .width,
                                             height: MediaQuery.of(context)
-                                                    .size
-                                                    .height /
+                                                .size
+                                                .height /
                                                 12,
                                             child: Row(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                               children: [
                                                 const Padding(
                                                     padding: EdgeInsets.only(
                                                         left: 25)),
                                                 ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(45),
+                                                  BorderRadius.circular(45),
                                                   child: Image.network(
                                                     character.image,
                                                     width: 45,
@@ -354,20 +351,20 @@ class _ComicDetailState extends State<ComicDetail> {
                                                     color: Colors.white,
                                                     fontSize: 16,
                                                     fontFamily:
-                                                        GoogleFonts.nunito()
-                                                            .fontFamily,
+                                                    GoogleFonts.nunito()
+                                                        .fontFamily,
                                                     fontWeight: FontWeight.w700,
                                                   ),
                                                 ),
                                               ],
                                             ),
-                                          );
-                                        }),
-                                  ],
-                                ),
+                                          ),
+                                        );
+                                      }),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ]),
                     ],
@@ -383,6 +380,8 @@ class _ComicDetailState extends State<ComicDetail> {
               },
             ),
           ),
-        ));
+          backgroundColor: const Color(0XFF1E3243),
+        )
+    );
   }
 }
