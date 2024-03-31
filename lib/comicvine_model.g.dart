@@ -143,6 +143,7 @@ ComicItemDetail _$ComicItemDetailFromJson(Map<String, dynamic> json) =>
           ? []
           : ComicItemDetail._characterCreditsApiUrlsFromJson(
               json['character_credits'] as List?),
+      json['api_detail_url'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ComicItemDetailToJson(ComicItemDetail instance) =>
@@ -155,6 +156,7 @@ Map<String, dynamic> _$ComicItemDetailToJson(ComicItemDetail instance) =>
       'description': instance.description,
       'person_credits': instance.personCredits,
       'character_credits': instance.characterCreditsUrls,
+      'api_detail_url': instance.apiUrl,
     };
 
 MovieResponse _$MovieResponseFromJson(Map<String, dynamic> json) =>

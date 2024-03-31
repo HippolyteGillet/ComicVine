@@ -9,6 +9,7 @@ import 'comicvine_request.dart';
 class ComicsBloc extends Bloc<ComicsEvent, ComicsState> {
   ComicsBloc() : super(ComicsInitial()) {
     on<ComicsRequested>(_onComicsRequested);
+    on<HomeComicsRequested>(_onHomeComicsRequested);
     on<ComicDetailRequested>(_onComicDetailRequested);
   }
 
@@ -19,10 +20,23 @@ class ComicsBloc extends Bloc<ComicsEvent, ComicsState> {
       final comics = await NetworkRequest().loadListComics();
 
       emit(ComicsLoadSuccess(comics.results));
-    } catch (_) {
-      emit(ComicsLoadFailure());
+    } catch (e, stacktrace) {
+      emit(ComicsLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
+
+  Future<void> _onHomeComicsRequested(
+      HomeComicsRequested event, Emitter<ComicsState> emit) async {
+    try {
+      emit(ComicsLoadInProgress());
+      final comics = await NetworkRequest().loadComics();
+
+      emit(ComicsLoadSuccess(comics.results));
+    } catch (e, stacktrace) {
+      emit(ComicsLoadFailure(e.toString() + stacktrace.toString()));
+    }
+  }
+
 
   Future<void> _onComicDetailRequested(
       ComicDetailRequested event, Emitter<ComicsState> emit) async {
@@ -51,9 +65,7 @@ class ComicsBloc extends Bloc<ComicsEvent, ComicsState> {
           personCredits,
           characterCredits));
     } catch (e, stacktrace) {
-      debugPrint('Error: $e');
-      debugPrint('Stacktrace: $stacktrace');
-      emit(ComicDetailLoadFailure());
+      emit(ComicDetailLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 }
@@ -62,6 +74,7 @@ class ComicsBloc extends Bloc<ComicsEvent, ComicsState> {
 class SeriesBloc extends Bloc<ComicsEvent, SeriesState> {
   SeriesBloc() : super(SeriesInitial()) {
     on<SeriesRequested>(_onSeriesRequested);
+    on<HomeSeriesRequested>(_onHomeSeriesRequested);
     on<SerieDetailRequested>(_onSerieDetailRequested);
   }
 
@@ -72,8 +85,20 @@ class SeriesBloc extends Bloc<ComicsEvent, SeriesState> {
       final series = await NetworkRequest().loadListSeries();
 
       emit(SeriesLoadSuccess(series.results));
-    } catch (_) {
-      emit(SeriesLoadFailure());
+    } catch (e, stacktrace) {
+      emit(SeriesLoadFailure(e.toString() + stacktrace.toString()));
+    }
+  }
+
+  Future<void> _onHomeSeriesRequested(
+      HomeSeriesRequested event, Emitter<SeriesState> emit) async {
+    try {
+      emit(SeriesLoadInProgress());
+      final series = await NetworkRequest().loadSeries();
+
+      emit(SeriesLoadSuccess(series.results));
+    } catch (e, stacktrace) {
+      emit(SeriesLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 
@@ -88,9 +113,7 @@ class SeriesBloc extends Bloc<ComicsEvent, SeriesState> {
 
       emit(SerieDetailLoadSuccess(serie, characters));
     } catch (e, stacktrace) {
-      debugPrint('Error: $e');
-      debugPrint('Stacktrace: $stacktrace');
-      emit(SerieDetailLoadFailure());
+      emit(SerieDetailLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 }
@@ -99,6 +122,7 @@ class SeriesBloc extends Bloc<ComicsEvent, SeriesState> {
 class MoviesBloc extends Bloc<ComicsEvent, MoviesState> {
   MoviesBloc() : super(MoviesInitial()) {
     on<MoviesRequested>(_onMoviesRequested);
+    on<HomeMoviesRequested>(_onHomeMoviesRequested);
     on<MovieDetailRequested>(_onMovieDetailRequested);
   }
 
@@ -109,8 +133,20 @@ class MoviesBloc extends Bloc<ComicsEvent, MoviesState> {
       final movies = await NetworkRequest().loadListMovies();
 
       emit(MoviesLoadSuccess(movies.results));
-    } catch (_) {
-      emit(MoviesLoadFailure());
+    } catch (e, stacktrace) {
+      emit(MoviesLoadFailure(e.toString() + stacktrace.toString()));
+    }
+  }
+
+  Future<void> _onHomeMoviesRequested(
+      HomeMoviesRequested event, Emitter<MoviesState> emit) async {
+    try {
+      emit(MoviesLoadInProgress());
+      final movies = await NetworkRequest().loadMovies();
+
+      emit(MoviesLoadSuccess(movies.results));
+    } catch (e, stacktrace) {
+      emit(MoviesLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 
@@ -124,9 +160,7 @@ class MoviesBloc extends Bloc<ComicsEvent, MoviesState> {
 
       emit(MovieDetailLoadSuccess(movie));
     } catch (e, stacktrace) {
-      debugPrint('Error: $e');
-      debugPrint('Stacktrace: $stacktrace');
-      emit(MovieDetailLoadFailure());
+      emit(MovieDetailLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 }
@@ -149,9 +183,7 @@ class CharactersBloc extends Bloc<ComicsEvent, CharactersState> {
 
       emit(CharactersLoadSuccess(characters));
     } catch (e, stacktrace) {
-      debugPrint('Error: $e');
-      debugPrint('Stacktrace: $stacktrace');
-      emit(CharactersLoadFailure());
+      emit(CharactersLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 }
@@ -172,8 +204,8 @@ class EpisodesBloc extends Bloc<ComicsEvent, EpisodesState> {
       }
 
       emit(EpisodesLoadSuccess(episodes));
-    } catch (_) {
-      emit(EpisodesLoadFailure());
+    } catch (e, stacktrace) {
+      emit(EpisodesLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 }
@@ -209,9 +241,7 @@ class SearchBloc extends Bloc<ComicsEvent, SearchState> {
 
       emit(SearchLoadSuccess(comicItems, characterItems));
     } catch (e, stacktrace) {
-      debugPrint('Error: $e');
-      debugPrint('Stacktrace: $stacktrace');
-      emit(SearchLoadFailure());
+      emit(SearchLoadFailure(e.toString() + stacktrace.toString()));
     }
   }
 }

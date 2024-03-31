@@ -37,6 +37,7 @@ class _MovieDetailState extends State<MovieDetail> {
                 } else if (state is MovieDetailLoadSuccess) {
                   String date = state.movieDetail.releaseDate;
                   date = date.substring(0, 4);
+                  final urls = state.movieDetail.charactersUrls;
                   return Column(
                     children: [
                       Stack(children: [
@@ -320,9 +321,37 @@ class _MovieDetailState extends State<MovieDetail> {
                                         } else if (state
                                             is CharactersLoadFailure) {
                                           return Center(
-                                            child: Text(
-                                              'Failed to load Characters ${state.toString()}',
-                                            ),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Erreur lors du chargement des personnages',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  )
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    BlocProvider.of<CharactersBloc>(
+                                                            context)
+                                                        .add(CharactersRequested(urls));
+                                                  },
+                                                  child: const Text('Réessayer'),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                Text('Erreur : ${state.message}',
+                                                    style: TextStyle(
+                                                      color: const Color(0xFF1F9FFF),
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.w400,
+                                                      fontFamily: GoogleFonts.nunito().fontFamily,
+                                                    )),
+                                              ],
+                                            )
                                           );
                                         }
                                         return Container();
@@ -332,311 +361,313 @@ class _MovieDetailState extends State<MovieDetail> {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         top: 16, left: 16),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Classification',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Classification',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Text(
-                                                state.movieDetail.rating,
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w400,
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Text(
+                                                  state.movieDetail.rating,
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Scénaristes',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 20)),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Scénaristes',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  for (var writer in state
-                                                      .movieDetail.writers)
-                                                    Text(
-                                                      writer,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontFamily:
-                                                            GoogleFonts.nunito()
-                                                                .fontFamily,
-                                                        fontWeight:
-                                                            FontWeight.w400,
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    for (var writer in state
+                                                        .movieDetail.writers)
+                                                      Text(
+                                                        writer,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                              GoogleFonts.nunito()
+                                                                  .fontFamily,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
                                                       ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Producteurs',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  for (var producer in state
-                                                      .movieDetail.producers)
-                                                    Text(
-                                                      producer,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontFamily:
-                                                            GoogleFonts.nunito()
-                                                                .fontFamily,
-                                                        fontWeight:
-                                                            FontWeight.w400,
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 20)),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Producteurs',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    for (var producer in state
+                                                        .movieDetail.producers)
+                                                      Text(
+                                                        producer,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                              GoogleFonts.nunito()
+                                                                  .fontFamily,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
                                                       ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Studios',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  for (var studio in state
-                                                      .movieDetail.studios)
-                                                    Text(
-                                                      studio,
-                                                      style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 18,
-                                                        fontFamily:
-                                                            GoogleFonts.nunito()
-                                                                .fontFamily,
-                                                        fontWeight:
-                                                            FontWeight.w400,
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 20)),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Studios',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                              ),
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    for (var studio in state
+                                                        .movieDetail.studios)
+                                                      Text(
+                                                        studio,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 18,
+                                                          fontFamily:
+                                                              GoogleFonts.nunito()
+                                                                  .fontFamily,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                        ),
                                                       ),
-                                                    ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Budget',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                                  ],
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Text(
-                                                formatPrice(state.movieDetail
-                                                    .budget),
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w400,
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 20)),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Budget',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Recettes au box-office',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Text(
+                                                  formatPrice(state.movieDetail
+                                                      .budget),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Text(
-                                                formatPrice(state.movieDetail
-                                                    .boxOfficeRevenue),
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w400,
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 20)),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Recettes au box-office',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.only(top: 20)),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2,
-                                              child: Text(
-                                                'Recettes brutes totales',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w700,
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Text(
+                                                  formatPrice(state.movieDetail
+                                                      .boxOfficeRevenue),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            const Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 20)),
-                                            SizedBox(
-                                              width: MediaQuery.of(context).size.width / 2.5,
-                                              child: Text(
-                                                formatPrice(state.movieDetail.totalRevenue),
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 18,
-                                                  fontFamily:
-                                                      GoogleFonts.nunito()
-                                                          .fontFamily,
-                                                  fontWeight: FontWeight.w400,
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.only(top: 20)),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2,
+                                                child: Text(
+                                                  'Recettes brutes totales',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                              const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(left: 20)),
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width / 2.5,
+                                                child: Text(
+                                                  formatPrice(state.movieDetail.totalRevenue),
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 18,
+                                                    fontFamily:
+                                                        GoogleFonts.nunito()
+                                                            .fontFamily,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   )
                                 ],
@@ -649,9 +680,42 @@ class _MovieDetailState extends State<MovieDetail> {
                   );
                 } else if (state is MovieDetailLoadFailure) {
                   return Center(
-                    child: Text(
-                      'Failed to load Movie detail ${state.toString()}',
-                    ),
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.arrow_back_ios,
+                              color: Colors.white),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Erreur lors du chargement du film',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontFamily: GoogleFonts.nunito().fontFamily,
+                            fontWeight: FontWeight.w700,
+                          )
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<MoviesBloc>(context)
+                                .add(MovieDetailRequested(widget.url));
+                          },
+                          child: const Text('Réessayer'),
+                        ),
+                        const SizedBox(height: 20),
+                        Text('Erreur : ${state.message}',
+                            style: TextStyle(
+                              color: const Color(0xFF1F9FFF),
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: GoogleFonts.nunito().fontFamily,
+                            )),
+                      ],
+                    )
                   );
                 }
                 return Container();

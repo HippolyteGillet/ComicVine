@@ -371,8 +371,44 @@ class _ComicDetailState extends State<ComicDetail> {
                   );
                 } else if (state is ComicDetailLoadFailure) {
                   return Center(
-                    child: Text(
-                      'Failed to load comic detail ${state.toString()}',
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          iconSize: 50,
+                          color: const Color(0xFF1F9FFF),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        Text(
+                          'Impossible de charger les détails du comic',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: GoogleFonts.nunito().fontFamily,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<ComicsBloc>(context)
+                                .add(ComicDetailRequested(widget.url));
+                          },
+                          child: const Text('Réessayer'),
+                        ),
+                        Text(
+                          'Erreur : ${state.message}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: GoogleFonts.nunito().fontFamily,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

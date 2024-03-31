@@ -33,13 +33,16 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         home: Scaffold(
           backgroundColor: const Color(0XFF15232E),
-          body: const [
-            HomePage(),
-            ComicsPage(),
-            SeriesPage(),
-            FilmPage(),
-            SearchPage()
-          ][_currentIndex],
+          body: IndexedStack(
+            index: _currentIndex,
+            children: [
+              HomePage(onNavigate: setCurrentIndex),
+              const ComicsPage(),
+              const SeriesPage(),
+              const FilmPage(),
+              const SearchPage()
+            ],
+          ),
           bottomNavigationBar: NavigationBarTheme(
               data: NavigationBarThemeData(
                 labelTextStyle: MaterialStateProperty.resolveWith<TextStyle>(
