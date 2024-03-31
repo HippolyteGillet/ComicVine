@@ -120,232 +120,234 @@ class _CharacterDetailState extends State<CharacterDetail> {
                       Container(
                           height: MediaQuery.of(context).size.height / 1.5,
                           padding: const EdgeInsets.all(16),
-                          child: Column(
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.1,
-                                    child: Text(
-                                      'Nom de super-héros',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w700,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.1,
+                                      child: Text(
+                                        'Nom de super-héros',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.6,
-                                    child: Text(
-                                      widget.character.name,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w400,
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 20)),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.6,
+                                      child: Text(
+                                        widget.character.name,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.1,
-                                    child: Text(
-                                      'Nom réel',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w700,
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.1,
+                                      child: Text(
+                                        'Nom réel',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.6,
-                                    child: Text(
-                                      widget.character.realName,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w400,
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 20)),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.6,
+                                      child: Text(
+                                        widget.character.realName,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.1,
-                                    child: Text(
-                                      'Alias',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w700,
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.1,
+                                      child: Text(
+                                        'Alias',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.6,
-                                    child: Text(
-                                      widget.character.aliases,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w400,
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 20)),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.6,
+                                      child: Text(
+                                        widget.character.aliases,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.1,
-                                    child: Text(
-                                      'Créateurs',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w700,
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.1,
+                                      child: Text(
+                                        'Créateurs',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.6,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        for (var creator
-                                            in widget.character.creators)
-                                          Text(
-                                            creator,
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontFamily: GoogleFonts.nunito()
-                                                  .fontFamily,
-                                              fontWeight: FontWeight.w400,
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 20)),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.6,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          for (var creator
+                                              in widget.character.creators)
+                                            Text(
+                                              creator,
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontFamily: GoogleFonts.nunito()
+                                                    .fontFamily,
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.1,
-                                    child: Text(
-                                      'Genre',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w700,
+                                        ],
                                       ),
                                     ),
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.6,
-                                    child: Text(
-                                      getGender(widget.character.gender),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w400,
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.1,
+                                      child: Text(
+                                        'Genre',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.1,
-                                    child: Text(
-                                      'Date de naissance',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w700,
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 20)),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.6,
+                                      child: Text(
+                                        getGender(widget.character.gender),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 20)),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2.6,
-                                    child: Text(
-                                      widget.character.birth,
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontFamily:
-                                            GoogleFonts.nunito().fontFamily,
-                                        fontWeight: FontWeight.w400,
+                                  ],
+                                ),
+                                const SizedBox(height: 20),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.1,
+                                      child: Text(
+                                        'Date de naissance',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                    const Padding(
+                                        padding: EdgeInsets.only(left: 20)),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2.6,
+                                      child: Text(
+                                        widget.character.birth,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontFamily:
+                                              GoogleFonts.nunito().fontFamily,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           )
                       ),
                     ],
