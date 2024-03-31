@@ -38,243 +38,264 @@ class _SeriesPageState extends State<SeriesPage> {
                           fontFamily: GoogleFonts.nunito().fontFamily)),
                 ),
                 Container(
-                    width: MediaQuery.of(context).size.width - 10,
-                    height: MediaQuery.of(context).size.height / 1.1,
-                    padding: const EdgeInsets.only(left: 10, top: 10),
-                    color: const Color(0XFF15232E),
-                    child: BlocBuilder<SeriesBloc, SeriesState>(
-                      builder: (context, state){
-                        if(state is SeriesLoadInProgress) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        else if(state is SeriesLoadSuccess){
-                          return ListView.builder(
-                            itemCount: state.series.length,
-                            itemBuilder: (context, index) {
-                              final serie = state.series[index];
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              SerieDetail(serie.apiUrl)));
-                                },
-                                child: SizedBox(
-                                  height:
-                                  MediaQuery.of(context).size.height / 4,
-                                  child: Card(
-                                      shape: RoundedRectangleBorder(
+                  width: MediaQuery.of(context).size.width - 10,
+                  height: MediaQuery.of(context).size.height / 1.1,
+                  padding: const EdgeInsets.only(left: 10, top: 10),
+                  color: const Color(0XFF15232E),
+                  child: BlocBuilder<SeriesBloc, SeriesState>(
+                      builder: (context, state) {
+                    if (state is SeriesLoadInProgress) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is SeriesLoadSuccess) {
+                      return ListView.builder(
+                        itemCount: state.series.length,
+                        itemBuilder: (context, index) {
+                          final serie = state.series[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SerieDetail(serie.apiUrl)));
+                            },
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height / 4,
+                              child: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  color: const Color(0XFF1E3243),
+                                  margin: const EdgeInsets.only(bottom: 20),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        top: 25,
+                                        left: 20,
+                                        child: ClipRRect(
                                           borderRadius:
-                                          BorderRadius.circular(20)),
-                                      color: const Color(0XFF1E3243),
-                                      margin: const EdgeInsets.only(bottom: 20),
-                                      child: Stack(
-                                        children: [
-                                          Positioned(
-                                            top: 25,
-                                            left: 20,
-                                            child: ClipRRect(
-                                              borderRadius:
                                               BorderRadius.circular(10),
-                                              child: Image.network(
-                                                serie.image,
-                                                width: MediaQuery.of(context)
+                                          child: Image.network(
+                                            serie.image,
+                                            width: MediaQuery.of(context)
                                                     .size
                                                     .width /
-                                                    3,
-                                                height: MediaQuery.of(context)
+                                                3,
+                                            height: MediaQuery.of(context)
                                                     .size
                                                     .height /
-                                                    6,
-                                                alignment: Alignment.topCenter,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
+                                                6,
+                                            alignment: Alignment.topCenter,
+                                            fit: BoxFit.cover,
                                           ),
-                                          Container(
-                                            width: 60,
-                                            height: 40,
-                                            alignment: Alignment.center,
-                                            margin: const EdgeInsets.only(
-                                                left: 10, top: 10),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 60,
+                                        height: 40,
+                                        alignment: Alignment.center,
+                                        margin: const EdgeInsets.only(
+                                            left: 10, top: 10),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
                                               BorderRadius.circular(100),
-                                              color: const Color(0XFFFF8100),
-                                            ),
-                                            child: Text(
-                                              '#${index + 1}',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 22,
-                                                fontFamily: GoogleFonts.nunito()
-                                                    .fontFamily,
-                                                fontWeight: FontWeight.w900,
-                                              ),
-                                            ),
+                                          color: const Color(0XFFFF8100),
+                                        ),
+                                        child: Text(
+                                          '#${index + 1}',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontFamily:
+                                                GoogleFonts.nunito().fontFamily,
+                                            fontWeight: FontWeight.w900,
                                           ),
-                                          Positioned(
-                                            top: 25,
-                                            left: MediaQuery.of(context)
-                                                .size
-                                                .width /
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 25,
+                                        left:
+                                            MediaQuery.of(context).size.width /
                                                 2.4,
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context)
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
                                                   .size
                                                   .width /
-                                                  1.85,
-                                              child: Column(
-                                                  crossAxisAlignment:
+                                              1.85,
+                                          child: Column(
+                                              crossAxisAlignment:
                                                   CrossAxisAlignment.start,
-                                                  children: [
-                                                    SizedBox(
-                                                      width:
-                                                      MediaQuery.of(context)
+                                              children: [
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
                                                           .size
                                                           .width /
-                                                          1.85,
-                                                      height: 52,
-                                                      child: Text(
-                                                        serie.name,
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 20,
-                                                          fontFamily:
-                                                          GoogleFonts
-                                                              .nunito()
+                                                      1.85,
+                                                  height: 52,
+                                                  child: Text(
+                                                    serie.name,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                      fontFamily:
+                                                          GoogleFonts.nunito()
                                                               .fontFamily,
-                                                          fontWeight:
+                                                      fontWeight:
                                                           FontWeight.w700,
-                                                        ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_publisher_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
+                                                          const ColorFilter
+                                                              .mode(
+                                                              Color(0xFF69727D),
+                                                              BlendMode.srcIn),
+                                                    ),
+                                                    const Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                left: 5)),
+                                                    Text(
+                                                      serie.publisher,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
+                                                                .fontFamily,
+                                                        fontWeight:
+                                                            FontWeight.w600,
                                                       ),
                                                     ),
-                                                    const Padding(
-                                                        padding:
-                                                        EdgeInsets.only(
-                                                            top: 10)),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/SVG/ic_publisher_bicolor.svg',
-                                                          width: 16,
-                                                          colorFilter:
+                                                  ],
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_tv_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
                                                           const ColorFilter
                                                               .mode(
-                                                              Color(
-                                                                  0xFF69727D),
-                                                              BlendMode
-                                                                  .srcIn),
-                                                        ),
-                                                        const Padding(
-                                                            padding:
-                                                            EdgeInsets.only(
-                                                                left: 5)),
-                                                        Text(
-                                                          serie.publisher,
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                            GoogleFonts
-                                                                .nunito()
-                                                                .fontFamily,
-                                                            fontWeight:
-                                                            FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                              Color(0xFF69727D),
+                                                              BlendMode.srcIn),
                                                     ),
                                                     const Padding(
                                                         padding:
-                                                        EdgeInsets.only(
-                                                            top: 10)),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/SVG/ic_tv_bicolor.svg',
-                                                          width: 16,
-                                                          colorFilter:
-                                                          const ColorFilter
-                                                              .mode(
-                                                              Color(
-                                                                  0xFF69727D),
-                                                              BlendMode
-                                                                  .srcIn),
-                                                        ),
-                                                        const Padding(
-                                                            padding:
                                                             EdgeInsets.only(
                                                                 left: 5)),
-                                                        Text(
-                                                          '${serie.countOfEpisodes} épisodes',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                            GoogleFonts
-                                                                .nunito()
+                                                    Text(
+                                                      '${serie.countOfEpisodes} épisodes',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
                                                                 .fontFamily,
-                                                            fontWeight:
+                                                        fontWeight:
                                                             FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Row(
+                                                  children: [
+                                                    SvgPicture.asset(
+                                                      'assets/SVG/ic_calendar_bicolor.svg',
+                                                      width: 16,
+                                                      colorFilter:
+                                                          const ColorFilter
+                                                              .mode(
+                                                              Color(0xFF69727D),
+                                                              BlendMode.srcIn),
                                                     ),
                                                     const Padding(
                                                         padding:
-                                                        EdgeInsets.only(
-                                                            top: 10)),
-                                                    Row(
-                                                      children: [
-                                                        SvgPicture.asset(
-                                                          'assets/SVG/ic_calendar_bicolor.svg',
-                                                          width: 16,
-                                                          colorFilter:
-                                                          const ColorFilter
-                                                              .mode(
-                                                              Color(
-                                                                  0xFF69727D),
-                                                              BlendMode
-                                                                  .srcIn),
-                                                        ),
-                                                        const Padding(
-                                                            padding:
                                                             EdgeInsets.only(
                                                                 left: 5)),
-                                                        Text(
-                                                          serie.startYear,
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 12,
-                                                            fontFamily:
-                                                            GoogleFonts
-                                                                .nunito()
+                                                    Text(
+                                                      serie.startYear,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily:
+                                                            GoogleFonts.nunito()
                                                                 .fontFamily,
-                                                            fontWeight:
+                                                        fontWeight:
                                                             FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )
-                                                  ]),
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                ),
-                              );
-                            },
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ]),
+                                        ),
+                                      )
+                                    ],
+                                  )),
+                            ),
                           );
-                        }
-                        else if(state is SeriesLoadFailure){
-                          return const Text('Erreur de chargement');
-                        }
-                        return Container();
-                      }
-                    ),
+                        },
+                      );
+                    } else if (state is SeriesLoadFailure) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Une erreur est survenue',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontFamily: GoogleFonts.nunito().fontFamily,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.only(top: 10)),
+                            ElevatedButton(
+                              onPressed: () {
+                                context
+                                    .read<SeriesBloc>()
+                                    .add(SeriesRequested());
+                              },
+                              child: Text(
+                                'Réessayer',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontFamily: GoogleFonts.nunito().fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            const Padding(padding: EdgeInsets.only(top: 10)),
+                            Text(
+                              'Erreur : ${state.message}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontFamily: GoogleFonts.nunito().fontFamily,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    }
+                    return Container();
+                  }),
                 ),
               ],
             ),

@@ -252,7 +252,37 @@ class _ComicsPageState extends State<ComicsPage> {
                           },
                         );
                       } else if (state is ComicsLoadFailure) {
-                        return const Text("Failed to load comics");
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Erreur de chargement',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontFamily: GoogleFonts.nunito().fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const Padding(padding: EdgeInsets.only(top: 10)),
+                              ElevatedButton(
+                                onPressed: () {
+                                  context.read<ComicsBloc>().add(ComicsRequested());
+                                },
+                                child: const Text('Réessayer'),
+                              ),
+                              const SizedBox(height: 20),
+                              Text('Erreur : ${state.message}',
+                                  style: TextStyle(
+                                    color: const Color(0xFF1F9FFF),
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: GoogleFonts.nunito().fontFamily,
+                                  )),
+                            ],
+                          ),
+                        );
                       }
                       return Container(); // État initial ou inattendu
                     },

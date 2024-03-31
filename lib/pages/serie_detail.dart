@@ -36,6 +36,8 @@ class _SerieDetailState extends State<SerieDetail> {
                     child: CircularProgressIndicator(),
                   );
                 } else if (state is SerieDetailLoadSuccess) {
+                  final charactersUrls = state.serieDetail.charactersUrls;
+                  final episodesUrls = state.serieDetail.episodesUrls;
                   return Column(
                     children: [
                       Stack(children: [
@@ -345,8 +347,40 @@ class _SerieDetailState extends State<SerieDetail> {
                                         } else if (state
                                             is CharactersLoadFailure) {
                                           return Center(
-                                            child: Text(
-                                              'Failed to load Characters ${state.toString()}',
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Failed to load Characters',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16,
+                                                    fontFamily: GoogleFonts
+                                                        .nunito()
+                                                        .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    BlocProvider.of<CharactersBloc>(
+                                                            context)
+                                                        .add(CharactersRequested(charactersUrls));
+                                                  },
+                                                  child: const Text('Réessayer'),
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Text('Erreur: ${state.message}',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontFamily: GoogleFonts
+                                                          .nunito()
+                                                          .fontFamily,
+                                                      fontWeight: FontWeight.w700,
+                                                    )),
+                                              ],
                                             ),
                                           );
                                         }
@@ -480,8 +514,40 @@ class _SerieDetailState extends State<SerieDetail> {
                                         } else if (state
                                             is EpisodesLoadFailure) {
                                           return Center(
-                                            child: Text(
-                                              'Failed to load Characters ${state.toString()}',
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  'Failed to load Episodes',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16,
+                                                    fontFamily: GoogleFonts
+                                                        .nunito()
+                                                        .fontFamily,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    BlocProvider.of<EpisodesBloc>(
+                                                            context)
+                                                        .add(EpisodesRequested(episodesUrls));
+                                                  },
+                                                  child: const Text('Réessayer'),
+                                                ),
+                                                const Padding(
+                                                    padding: EdgeInsets.only(
+                                                        top: 10)),
+                                                Text('Erreur: ${state.message}',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontFamily: GoogleFonts
+                                                          .nunito()
+                                                          .fontFamily,
+                                                      fontWeight: FontWeight.w700,
+                                                    )),
+                                              ],
                                             ),
                                           );
                                         }
@@ -499,8 +565,41 @@ class _SerieDetailState extends State<SerieDetail> {
                   );
                 } else if (state is SerieDetailLoadFailure) {
                   return Center(
-                    child: Text(
-                      'Failed to load Serie detail ${state.toString()}',
+                    child: Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.arrow_back_ios,
+                              color: Colors.white),
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        Text(
+                          'Failed to load Serie',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontFamily: GoogleFonts.nunito().fontFamily,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            BlocProvider.of<SeriesBloc>(context)
+                                .add(SerieDetailRequested(widget.url));
+                          },
+                          child: const Text('Réessayer'),
+                        ),
+                        const Padding(padding: EdgeInsets.only(top: 10)),
+                        Text('Erreur: ${state.message}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontFamily: GoogleFonts.nunito().fontFamily,
+                              fontWeight: FontWeight.w700,
+                            )),
+                      ],
                     ),
                   );
                 }

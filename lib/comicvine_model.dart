@@ -154,6 +154,8 @@ class ComicItemDetail {
   final List<PersonCredit> personCredits;
   @JsonKey(name:'character_credits', fromJson: _characterCreditsApiUrlsFromJson, defaultValue: [])
   final List<String> characterCreditsUrls;
+  @JsonKey(name: 'api_detail_url', defaultValue: '')
+  final String apiUrl;
 
   ComicItemDetail(
       this.name,
@@ -163,7 +165,8 @@ class ComicItemDetail {
       this.coverDate,
       this.description,
       this.personCredits,
-      this.characterCreditsUrls);
+      this.characterCreditsUrls,
+      this.apiUrl);
 
   factory ComicItemDetail.fromJson(Map<String, dynamic> json) =>
       _$ComicItemDetailFromJson(json);
